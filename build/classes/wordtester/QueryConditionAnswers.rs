@@ -1,0 +1,2 @@
+wordtester.QueryConditionAnswers
+wordtester.QCAType

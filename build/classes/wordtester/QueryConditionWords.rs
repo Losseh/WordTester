@@ -1,0 +1,2 @@
+wordtester.QueryConditionWords
+wordtester.QCWType
