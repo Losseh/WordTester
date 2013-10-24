@@ -4,17 +4,44 @@
  */
 package wordtester;
 
+import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+enum Action {
+
+    NONE, ADD_WORD, REMOVE_WORD,
+};
+
 /**
  *
  * @author adrian
  */
 public class MainWindow extends javax.swing.JFrame {
 
+    public DBInterface dbiface;
+    public Action action = Action.NONE;
+
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
+        try {
+            this.dbiface = new DBInterface();
+        } catch (Exception ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
+        this.setBackground(Color.BLUE);
+        this.setName("WordTester v1.0");
+        this.add_yes.setEnabled(false);
+        this.add_yes.setVisible(false);
+        this.add_no.setEnabled(false);
+        this.add_no.setVisible(false);
+        this.add_lang1.setText("");
+        this.add_lang2.setText("");
+        this.add_word1.setText("");
+        this.add_word2.setText("");
     }
 
     /**
@@ -26,38 +53,273 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        wordLabel = new javax.swing.JLabel();
-        nextWordButton = new javax.swing.JButton();
-        answerText = new javax.swing.JTextField();
-        checkButton = new javax.swing.JButton();
+        addWords = new javax.swing.JFrame();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jTextField8 = new javax.swing.JTextField();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        add_record_btn = new javax.swing.JButton();
+        add_lang1 = new javax.swing.JTextField();
+        add_word1 = new javax.swing.JTextField();
+        add_lang2 = new javax.swing.JTextField();
+        add_word2 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        remove_record_btn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        add_usure_text = new javax.swing.JTextArea();
+        add_yes = new javax.swing.JButton();
+        add_no = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        test_lang1 = new javax.swing.JLabel();
+        test_lang2 = new javax.swing.JLabel();
+        test_word1 = new javax.swing.JLabel();
+        test_word2 = new javax.swing.JTextField();
+        test_label = new javax.swing.JLabel();
+        test_check_btn = new javax.swing.JButton();
+        test_no_idea_btn = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
+        jTextField1.setText("language2");
+
+        jTextField2.setText("word2");
+
+        jTextField3.setText("language1");
+
+        jTextField4.setText("word1");
+
+        jButton4.setText("Add");
+
+        javax.swing.GroupLayout addWordsLayout = new javax.swing.GroupLayout(addWords.getContentPane());
+        addWords.getContentPane().setLayout(addWordsLayout);
+        addWordsLayout.setHorizontalGroup(
+            addWordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addWordsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(addWordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addWordsLayout.createSequentialGroup()
+                        .addGroup(addWordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                            .addComponent(jTextField4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(addWordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addWordsLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton4)))
+                .addContainerGap())
+        );
+        addWordsLayout.setVerticalGroup(
+            addWordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addWordsLayout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(addWordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addWordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addContainerGap())
+        );
+
+        jTextField8.setText("jTextField8");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        wordLabel.setText("word");
-
-        nextWordButton.setText("Next word");
-        nextWordButton.addActionListener(new java.awt.event.ActionListener() {
+        add_record_btn.setText("Add record");
+        add_record_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nextWordButtonActionPerformed(evt);
+                add_record_btnActionPerformed(evt);
             }
         });
 
-        answerText.setText("temp");
-        answerText.addActionListener(new java.awt.event.ActionListener() {
+        jLabel5.setText("Language of word #1");
+
+        jLabel6.setText("Language of word #2");
+
+        jLabel7.setText("Word #1");
+
+        jLabel8.setText("Word #2");
+
+        remove_record_btn.setText("Remove record");
+        remove_record_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                answerTextActionPerformed(evt);
+                remove_record_btnActionPerformed(evt);
             }
         });
 
-        checkButton.setText("Check");
-        checkButton.addActionListener(new java.awt.event.ActionListener() {
+        add_usure_text.setColumns(20);
+        add_usure_text.setRows(5);
+        jScrollPane1.setViewportView(add_usure_text);
+
+        add_yes.setText("Yes!");
+        add_yes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkButtonActionPerformed(evt);
+                add_yesActionPerformed(evt);
             }
         });
+
+        add_no.setText("No!");
+        add_no.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_noActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(add_word1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(add_lang1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(add_lang2)
+                            .addComponent(add_word2)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(add_record_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(remove_record_btn))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(add_yes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(add_no, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(add_lang1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(add_lang2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(add_word1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(add_word2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(add_record_btn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(remove_record_btn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(add_yes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(add_no))))
+        );
+
+        jTabbedPane2.addTab("Add/Remove words", jPanel1);
+
+        test_lang1.setText("Language #1");
+
+        test_lang2.setText("Language #2");
+
+        test_word1.setText("Word #1");
+
+        test_word2.setText("word2");
+
+        test_label.setText("jLabel4");
+
+        test_check_btn.setText("Check!");
+
+        test_no_idea_btn.setText("No idea!");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(test_no_idea_btn, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(test_check_btn, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(test_word1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(test_lang1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(test_lang2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(test_word2))))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(119, Short.MAX_VALUE)
+                .addComponent(test_label, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(98, 98, 98))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(test_lang1)
+                    .addComponent(test_lang2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(test_word1)
+                    .addComponent(test_word2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(test_label)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
+                .addComponent(test_check_btn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(test_no_idea_btn))
+        );
+
+        jTabbedPane2.addTab("Test me", jPanel2);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 391, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 276, Short.MAX_VALUE)
+        );
+
+        jTabbedPane2.addTab("Learn words", jPanel3);
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -71,51 +333,103 @@ public class MainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(checkButton)
-                        .addGap(34, 34, 34)
-                        .addComponent(nextWordButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(wordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(answerText)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTabbedPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(wordLabel)
-                    .addComponent(answerText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nextWordButton)
-                    .addComponent(checkButton))
-                .addContainerGap())
+            .addComponent(jTabbedPane2)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void checkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkButtonActionPerformed
+    /**
+     * 
+     * @param evt 
+     */
+    private void add_record_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_record_btnActionPerformed
         // TODO add your handling code here:
-        answerText.getText();
-        wordLabel.setText(answerText.getText()); 
-    }//GEN-LAST:event_checkButtonActionPerformed
+        System.out.println(add_lang1.getText());
+        System.out.println(add_lang2.getText());
+        System.out.println(add_word1.getText());
+        System.out.println(add_word2.getText());
+        if (add_lang1.getText().equals("") || add_lang2.getText().equals("")
+                || add_word1.getText().equals("") || add_word2.getText().equals("")) {
+            this.add_usure_text.setText("You need to fulfill all fields to properly add a new record!");
+        } else {
+            action = Action.ADD_WORD;
+            this.add_yes.setEnabled(true);
+            this.add_yes.setVisible(true);
 
-    private void answerTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_answerTextActionPerformed
-        // TODO add your handling code here:
-            //Parse degrees Celsius as a double and convert to Fahrenheit.
-    }//GEN-LAST:event_answerTextActionPerformed
+            this.add_no.setEnabled(true);
+            this.add_no.setVisible(true);
 
-    private void nextWordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextWordButtonActionPerformed
+            this.add_usure_text.setText("Do you really want to add word\n"
+                    + add_word1.getText() + " (" + add_lang1.getText() + ") - "
+                    + add_word1.getText() + " (" + add_lang1.getText() + ")");
+            // need some assertions and correctness check here!
+        }
+    }//GEN-LAST:event_add_record_btnActionPerformed
+
+    /**
+     * 
+     * @param evt 
+     */
+    private void remove_record_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remove_record_btnActionPerformed
+        System.out.println("Remove record");
+        action = Action.REMOVE_WORD;
+        this.add_yes.setEnabled(true);
+        this.add_yes.setVisible(true);
+        this.add_no.setEnabled(true);
+        this.add_no.setVisible(true);
+        this.add_usure_text.setEnabled(true);
+        this.add_usure_text.setVisible(true);
+    }//GEN-LAST:event_remove_record_btnActionPerformed
+
+    private void add_yesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_yesActionPerformed
+
+        if (action == Action.ADD_WORD) {
+            if (dbiface.addRecord(
+                    add_lang1.getText(),
+                    add_word1.getText(),
+                    add_lang2.getText(),
+                    add_word2.getText())) {
+                add_usure_text.setText("Word added correctly!");
+            } else {
+                add_usure_text.setText("Error adding word!");
+            }
+            add_lang1.setText("");
+            add_lang2.setText("");
+            add_word1.setText("");
+            add_word2.setText("");
+        } else if (action == Action.REMOVE_WORD) {
+            System.err.println("Remove word...");
+        }
+
+        this.add_yes.setEnabled(false);
+        this.add_yes.setVisible(false);
+        this.add_no.setEnabled(false);
+        this.add_no.setVisible(false);
+    }//GEN-LAST:event_add_yesActionPerformed
+
+    private void add_noActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_noActionPerformed
         // TODO add your handling code here:
-        wordLabel.setText("dupa"); 
-    }//GEN-LAST:event_nextWordButtonActionPerformed
+        if (action == Action.ADD_WORD) {
+            add_usure_text.setText("Adding word ignored");
+
+            add_lang1.setText("");
+            add_lang2.setText("");
+            add_word1.setText("");
+            add_word2.setText("");
+        } else if (action == Action.REMOVE_WORD) {
+            System.err.println("Remove word...");
+        }
+
+        this.add_yes.setEnabled(false);
+        this.add_yes.setVisible(false);
+        this.add_no.setEnabled(false);
+        this.add_no.setVisible(false);
+    }//GEN-LAST:event_add_noActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,12 +466,40 @@ public class MainWindow extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField answerText;
-    private javax.swing.JButton checkButton;
+    private javax.swing.JFrame addWords;
+    private javax.swing.JTextField add_lang1;
+    private javax.swing.JTextField add_lang2;
+    private javax.swing.JButton add_no;
+    private javax.swing.JButton add_record_btn;
+    private javax.swing.JTextArea add_usure_text;
+    private javax.swing.JTextField add_word1;
+    private javax.swing.JTextField add_word2;
+    private javax.swing.JButton add_yes;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JButton nextWordButton;
-    private javax.swing.JLabel wordLabel;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JButton remove_record_btn;
+    private javax.swing.JButton test_check_btn;
+    private javax.swing.JLabel test_label;
+    private javax.swing.JLabel test_lang1;
+    private javax.swing.JLabel test_lang2;
+    private javax.swing.JButton test_no_idea_btn;
+    private javax.swing.JLabel test_word1;
+    private javax.swing.JTextField test_word2;
     // End of variables declaration//GEN-END:variables
 }
