@@ -1,2 +1,0 @@
-wordtester.QueryConditionWords
-wordtester.QCWType

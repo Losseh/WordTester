@@ -5,14 +5,35 @@
 package wordtester;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 
 enum Action {
 
     NONE, ADD_WORD, REMOVE_WORD,
 };
 
+enum TestComboBoxMode {
+
+    NONE, CHANGED, COMPLETE
+};
+
+/**
+ * #################### TO DO #########################
+ *
+ * 30.10.2013 ID of record does not get set automatically after having added the
+ * word
+ *
+ * Add check functionality
+ *
+ * Add learn words functionality
+ *
+ * Add remove word functionality (maybe find first?)
+ */
 /**
  *
  * @author adrian
@@ -21,6 +42,12 @@ public class MainWindow extends javax.swing.JFrame {
 
     public DBInterface dbiface;
     public Action action = Action.NONE;
+    public String language1 = "";
+    public String language2 = "";
+    private String rmLanguage1 = "";
+    private String rmLanguage2 = "";
+    public ArrayList<String> languages;
+    public TestComboBoxMode comboMode = TestComboBoxMode.NONE;
 
     /**
      * Creates new form MainWindow
@@ -42,6 +69,12 @@ public class MainWindow extends javax.swing.JFrame {
         this.add_lang2.setText("");
         this.add_word1.setText("");
         this.add_word2.setText("");
+        try {
+            languages = dbiface.getLanguages();
+            setComboBoxLanguages(languages, TestComboBox.BOTH);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -84,6 +117,9 @@ public class MainWindow extends javax.swing.JFrame {
         test_label = new javax.swing.JLabel();
         test_check_btn = new javax.swing.JButton();
         test_no_idea_btn = new javax.swing.JButton();
+        l1ComboBox = new javax.swing.JComboBox();
+        l2ComboBox = new javax.swing.JComboBox();
+        test_begin = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -255,37 +291,77 @@ public class MainWindow extends javax.swing.JFrame {
 
         test_word2.setText("word2");
 
-        test_label.setText("jLabel4");
-
         test_check_btn.setText("Check!");
+        test_check_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                test_check_btnActionPerformed(evt);
+            }
+        });
 
         test_no_idea_btn.setText("No idea!");
+        test_no_idea_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                test_no_idea_btnActionPerformed(evt);
+            }
+        });
+
+        l1ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        l1ComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                l1ComboBoxActionPerformed(evt);
+            }
+        });
+
+        l2ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        l2ComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                l2ComboBoxActionPerformed(evt);
+            }
+        });
+
+        test_begin.setText("Begin!");
+        test_begin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                test_beginActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(test_no_idea_btn, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(test_check_btn, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addGap(119, 119, 119)
+                        .addComponent(test_label, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(test_word1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(test_lang1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(test_lang2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(test_word2))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(test_lang1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(l1ComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGap(6, 6, 6)))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(test_word1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(6, 6, 6)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(test_word2)
+                                    .addComponent(l2ComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(test_lang2, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(test_begin)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(test_check_btn)
+                                .addGap(95, 95, 95)
+                                .addComponent(test_no_idea_btn)))))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(119, Short.MAX_VALUE)
-                .addComponent(test_label, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,16 +370,22 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(test_lang1)
                     .addComponent(test_lang2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(l1ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(l2ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(test_word1)
                     .addComponent(test_word2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(test_label)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
-                .addComponent(test_check_btn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(test_no_idea_btn))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(test_check_btn)
+                    .addComponent(test_no_idea_btn)
+                    .addComponent(test_begin))
+                .addContainerGap(129, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Test me", jPanel2);
@@ -344,8 +426,8 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void add_record_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_record_btnActionPerformed
         // TODO add your handling code here:
@@ -366,14 +448,14 @@ public class MainWindow extends javax.swing.JFrame {
 
             this.add_usure_text.setText("Do you really want to add word\n"
                     + add_word1.getText() + " (" + add_lang1.getText() + ") - "
-                    + add_word1.getText() + " (" + add_lang1.getText() + ")");
+                    + add_word2.getText() + " (" + add_lang2.getText() + ")");
             // need some assertions and correctness check here!
         }
     }//GEN-LAST:event_add_record_btnActionPerformed
 
     /**
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void remove_record_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remove_record_btnActionPerformed
         System.out.println("Remove record");
@@ -430,6 +512,84 @@ public class MainWindow extends javax.swing.JFrame {
         this.add_no.setEnabled(false);
         this.add_no.setVisible(false);
     }//GEN-LAST:event_add_noActionPerformed
+
+    private void l1ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_l1ComboBoxActionPerformed
+        // TODO add your handling code here:
+        JComboBox cb = (JComboBox) evt.getSource();
+        language1 = (String) cb.getSelectedItem();
+        if (language1 != null && language2 != null) {
+            ActionListener al = l2ComboBox.getActionListeners()[0];
+            l2ComboBox.removeActionListener(al);
+            if (!language1.equals("any")) {
+                ArrayList<String> languages2 = (ArrayList<String>) languages.clone();
+                languages2.remove(language1);
+                setComboBoxLanguages(languages2, TestComboBox.SECOND);
+                System.out.println("combo2 langues:\n" + languages2);
+                l1ComboBox.setSelectedItem(language1);
+                System.out.println("l1: " + language1 + ", l2: " + language2);
+                if (language1.equals(language2)) {
+                    System.out.println("ifnotany");
+                    language2 = "any";
+                }
+            } else {
+                System.out.println("elseany");
+                setComboBoxLanguages(languages, TestComboBox.SECOND);
+            }
+            l2ComboBox.setSelectedItem(language2);
+            l2ComboBox.addActionListener(al);
+
+        }
+    }//GEN-LAST:event_l1ComboBoxActionPerformed
+
+    private void l2ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_l2ComboBoxActionPerformed
+
+        JComboBox cb = (JComboBox) evt.getSource();
+        language2 = (String) cb.getSelectedItem();
+        System.out.println("sth");
+        if (language1 != null && language2 != null) {
+            ActionListener al = l1ComboBox.getActionListeners()[0];
+            l1ComboBox.removeActionListener(al);
+            if (!language2.equals("any")) {
+                ArrayList<String> languages1 = (ArrayList<String>) languages.clone();
+                languages1.remove(language2);
+                setComboBoxLanguages(languages1, TestComboBox.FIRST);
+                l2ComboBox.setSelectedItem(language2);
+                if (language2.equals(language1)) {
+                    System.out.println("ifnotany");
+                    language1 = "any";
+                }
+            } else {
+                System.out.println("elseany");
+                setComboBoxLanguages(languages, TestComboBox.FIRST);
+            }
+            l1ComboBox.setSelectedItem(language1);
+            l1ComboBox.addActionListener(al);
+        }
+    }//GEN-LAST:event_l2ComboBoxActionPerformed
+
+    private void test_beginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test_beginActionPerformed
+        // TODO add your handling code here:
+        System.out.println("Begin!");
+        try {
+            //here we have to find all the words from languages chosen and 
+            //test user...
+            dbiface.getWordList(language1, language2);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_test_beginActionPerformed
+
+    private void test_check_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test_check_btnActionPerformed
+        // TODO add your handling code here:
+        System.out.println("check!");
+        //here we have to compare the word entered by user with original word
+    }//GEN-LAST:event_test_check_btnActionPerformed
+
+    private void test_no_idea_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test_no_idea_btnActionPerformed
+        // TODO add your handling code here:
+        System.out.println("no idea!");
+        //just draw another word and update the words to test...
+    }//GEN-LAST:event_test_no_idea_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -493,7 +653,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JComboBox l1ComboBox;
+    private javax.swing.JComboBox l2ComboBox;
     private javax.swing.JButton remove_record_btn;
+    private javax.swing.JButton test_begin;
     private javax.swing.JButton test_check_btn;
     private javax.swing.JLabel test_label;
     private javax.swing.JLabel test_lang1;
@@ -502,4 +665,26 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel test_word1;
     private javax.swing.JTextField test_word2;
     // End of variables declaration//GEN-END:variables
+
+    enum TestComboBox {
+
+        NONE, FIRST, SECOND, BOTH
+    };
+
+    private void setComboBoxLanguages(ArrayList<String> languages, TestComboBox cb) {
+        if (cb == TestComboBox.FIRST || cb == TestComboBox.BOTH) {
+            l1ComboBox.removeAllItems();
+            for (String language : languages) {
+                l1ComboBox.addItem(language);
+            }
+            l1ComboBox.addItem("any");
+        }
+        if (cb == TestComboBox.SECOND || cb == TestComboBox.BOTH) {
+            l2ComboBox.removeAllItems();
+            for (String language : languages) {
+                l2ComboBox.addItem(language);
+            }
+            l2ComboBox.addItem("any");
+        }
+    }
 }

@@ -1,2 +1,0 @@
-wordtester.QueryConditionAnswers
-wordtester.QCAType

@@ -14,12 +14,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
+ *
  * @author Adrian Szymanski
  */
 public class DBInterface {
@@ -37,7 +39,8 @@ public class DBInterface {
 
     /**
      * DBInterface class constructor
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     public DBInterface() throws Exception {
         try {
@@ -54,7 +57,8 @@ public class DBInterface {
 
     /**
      * Reads database and prints all records to standard output
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     public void readDataBase() throws Exception {
         try {
@@ -77,46 +81,97 @@ public class DBInterface {
     }
 
     /**
-     * 
-     * @param resultSet
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
-    private void writeMetaData(ResultSet resultSet) throws SQLException {
+    public ArrayList<String> getLanguages() throws SQLException {
+        statement = connect.createStatement();
+        resultSet = statement.executeQuery("SELECT language1 FROM words");
+        ArrayList<String> languages = new ArrayList<String>();
+        while (resultSet.next()) {
+            languages.add(resultSet.getString("language1"));
+        }
+        resultSet = statement.executeQuery("SELECT language2 FROM words");
+        while (resultSet.next()) {
+            String s = resultSet.getString("language2");
+            if (!languages.contains(s)) {
+                languages.add(s);
+            }
+        }
+
+        Collections.sort(languages);
+
+        return languages;
+    }
+
+    /**
+     *
+     * @param resultSet
+     * @throws SQLException
+     */
+    private ArrayList<String> getMetaData(ResultSet resultSet) throws SQLException {
         //   Now get some metadata from the database
         // Result set get the result of the SQL query
 
+        ArrayList<String> columns = new ArrayList<>();
         System.out.println("The columns in the table are: ");
         System.out.println("Table: " + resultSet.getMetaData().getTableName(1));
         for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
-            System.out.println("Column " + i + " " + resultSet.getMetaData().getColumnName(i));
+            //System.out.println("Column " + i + " " + resultSet.getMetaData().getColumnName(i));
+            columns.add(resultSet.getMetaData().getColumnName(i));
         }
+
+        return columns;
     }
 
     /**
      * Writes obtained result set to standard output
+     *
      * @param resultSet Set of record obtained after a query
-     * @throws SQLException 
+     * @throws SQLException
      */
     private void writeResultSet(ResultSet resultSet) throws SQLException {
         // ResultSet is initially before the first data set
         int i = 1;
+        ArrayList<String> columns = getMetaData(resultSet);
         while (resultSet.next()) {
-            // It is possible to get the columns via name
-            // also possible to get the columns via the column number
-            // which starts at 1
-            // e.g. resultSet.getSTring(2);
-            String language1 = resultSet.getString("language1");
-            String word1 = resultSet.getString("word1");
-            String language2 = resultSet.getString("language2");
-            String word2 = resultSet.getString("word2");
-            int good_answers = resultSet.getInt("good_answers");
-            int all_answers = resultSet.getInt("all_answers");
-            Date date_of_insert = resultSet.getDate("date_of_insert");
+            String language1 = "";
+            String word1 = "";
+            String language2 = "";
+            String word2 = "";
+            int good_answers = -1;
+            int all_answers = -1;
+            String toShow = "" + i;
+            if (columns.contains("language1")) {
+                language1 = resultSet.getString("language1");
+                toShow += ". [" + language1 + "] ";
+            }
+            if (columns.contains("word1")) {
+                word1 = resultSet.getString("word1");
+                toShow += word1;
+            }
+            if (columns.contains("language2")) {
+                language2 = resultSet.getString("language2");
+                toShow += "- [" + language2 + "] ";
+            }
+            if (columns.contains("word2")) {
+                word2 = resultSet.getString("word2");
+                toShow += word2;
+            }
+            if (columns.contains("good_answers")) {
+                good_answers = resultSet.getInt("good_answers");
+                toShow += " " + good_answers;
+            }
+            if (columns.contains("all_answers")) {
+                all_answers = resultSet.getInt("all_answers");
+                toShow += "/" + all_answers;
+            }
+            if (columns.contains("date_of_insert")) {
+                Date date_of_insert = resultSet.getDate("date_of_insert");
+                toShow += "\nDate of insert: " + date_of_insert + "\n";
+            }
 
-            System.out.println(i + ". [" + language1 + "] " + word1 + " - [" + language2 + "] " + word2 + " "
-                    + good_answers + "/" + all_answers);
-            System.out.println("Date of insert: " + date_of_insert);
-            System.out.println("");
+            System.out.println(toShow);
             i++;
         }
     }
@@ -159,7 +214,7 @@ public class DBInterface {
     }
 
     /**
-     * 
+     *
      * @return Name of used database
      */
     static String getDBName() {
@@ -168,7 +223,7 @@ public class DBInterface {
 
     // You need to close the resultSet
     /**
-     * 
+     *
      */
     private void close() {
         try {
@@ -185,5 +240,25 @@ public class DBInterface {
             }
         } catch (Exception e) {
         }
+    }
+
+    public WordList getWordList(String lang1, String lang2) throws SQLException {
+        WordList words = new WordList();
+        statement = connect.createStatement();
+        resultSet = statement.executeQuery(Query.InterpreteQuery(
+                new QueryConditionLanguage(lang1, lang2)));
+        while (resultSet.next()) {
+            Word word = new Word();
+            word.setLanguage1(resultSet.getString("language1"));
+            word.setLanguage2(resultSet.getString("language2"));
+            word.setWord1(resultSet.getString("word1"));
+            word.setWord2(resultSet.getString("word2"));
+            word.setGood_answers(resultSet.getInt("good_answers"));
+            word.setAll_answers(resultSet.getInt("all_answers"));
+            word.setDate_of_insert(resultSet.getDate("date_of_insert"));
+            words.add(word);
+        }
+        words.printAll();
+        return words;
     }
 }

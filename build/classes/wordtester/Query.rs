@@ -1,2 +1,0 @@
-wordtester.Query
-wordtester.QueryType
